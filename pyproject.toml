@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "goblet-liquid-ratio"
+version = "0.1.0"
+description = "Lightweight CV utility for estimating liquid height ratio in a fixed goblet."
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.0,<2.3",
+    "opencv-python-headless>=4.12,<4.14",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+
+[project.scripts]
+goblet-liquid-ratio = "goblet_liquid_ratio.__main__:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
