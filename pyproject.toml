@@ -7,10 +7,14 @@ name = "goblet-liquid-ratio"
 version = "0.1.0"
 description = "Estimate orange/red juice height ratio in a fixed goblet via YOLO localization + CV measurement."
 requires-python = ">=3.12"
+authors = [{ name = "Alexi1984" }]
 dependencies = [
     "numpy>=2.0,<2.3",
     "opencv-python-headless>=4.12,<4.14",
 ]
+
+[project.urls]
+Repository = "https://github.com/Alexi1984/goblet-liquid-ratio"
 
 [project.optional-dependencies]
 test = ["pytest>=8.0"]

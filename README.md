@@ -64,14 +64,14 @@ The default `method="yolo"` needs the optional detector stack
 extra to get it:
 
 ```bash
-pip install "git+https://github.com/<you>/goblet-liquid-ratio.git#egg=goblet-liquid-ratio[yolo]"
+pip install "git+https://github.com/Alexi1984/goblet-liquid-ratio.git#egg=goblet-liquid-ratio[yolo]"
 ```
 
 Torch-free install (colour-blob `method="opencv"` only — lighter, but less
 robust to red/orange objects next to the cup):
 
 ```bash
-pip install "git+https://github.com/<you>/goblet-liquid-ratio.git"
+pip install "git+https://github.com/Alexi1984/goblet-liquid-ratio.git"
 ```
 
 The `yolo11n` weights (~5 MB) ship **inside** the package, so YOLO mode works
