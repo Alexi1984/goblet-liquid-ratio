@@ -74,9 +74,12 @@ robust to red/orange objects next to the cup):
 pip install "git+https://github.com/Alexi1984/goblet-liquid-ratio.git"
 ```
 
-The `yolo11n` weights (~5 MB) ship **inside** the package, so YOLO mode works
-offline once installed. If for some reason they are missing, ultralytics will
-download them by name on first use (needs network then).
+On first use of `method="yolo"`, ultralytics downloads the `yolo11n` weights
+(~5 MB) by name and caches them (needs network once). The weights are **not**
+bundled in this repo on purpose — they are an Ultralytics AGPL-3.0 asset, and
+shipping them would compromise this project's MIT license (see the license note
+below). For offline use, drop a `yolo11n.pt` into
+`src/goblet_liquid_ratio/models/` yourself.
 
 > Heads-up: if you call the default `method="yolo"` without the `[yolo]` extra,
 > the function raises an `ImportError` that tells you exactly how to fix it
@@ -167,10 +170,18 @@ full path, or pass the parent directory.
 Pure-unit and colour-blob tests always run; the real-photo regression test is
 skipped unless `ultralytics` and the sample photos are present.
 
-## Third-party / license note
+## License
 
-YOLO mode uses **Ultralytics YOLO11**, which is licensed **AGPL-3.0**. The
-bundled `src/goblet_liquid_ratio/models/yolo11n.pt` weights and the
-`ultralytics` runtime are redistributed under that license. If you publish this
-repo or build a service on top of it, AGPL-3.0 obligations apply to the YOLO
-path. The torch-free `method="opencv"` path does not use Ultralytics.
+This project's source code is **MIT** (see [`LICENSE`](LICENSE)) — free for
+commercial and closed-source use.
+
+**Important caveat for the YOLO backend.** `method="yolo"` imports Ultralytics
+at runtime and downloads YOLO11 weights, which are **AGPL-3.0**, not MIT. If you
+use the YOLO backend, your usage falls under Ultralytics' AGPL-3.0 terms (or
+their Enterprise License). To stay fully MIT / closed-source-friendly:
+
+- use `method="opencv"` (NumPy BSD + OpenCV Apache-2.0, no Ultralytics), or
+- swap in a non-AGPL detector behind the same interface.
+
+The weights are intentionally **not** committed to this repo, so the repository
+itself contains only MIT-licensed code.

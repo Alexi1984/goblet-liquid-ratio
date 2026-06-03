@@ -8,10 +8,13 @@ import cv2
 import numpy as np
 
 
-# Detector weights bundled inside the installed package; falls back to the
-# ultralytics auto-download by name (~5 MB, needs network on first use).
-_BUNDLED_MODEL = Path(__file__).resolve().parent / "models" / "yolo11n.pt"
-DEFAULT_YOLO_MODEL: str = str(_BUNDLED_MODEL) if _BUNDLED_MODEL.exists() else "yolo11n.pt"
+# Detector weights are NOT bundled: yolo11n.pt is an Ultralytics AGPL-3.0 asset,
+# so shipping it would make this MIT package a derivative distribution of AGPL
+# content. Instead ultralytics downloads it by name on first use (~5 MB, cached
+# in its own directory). A locally-present yolo11n.pt is still honoured if found
+# next to the package (e.g. dropped in by a user who wants offline operation).
+_LOCAL_MODEL = Path(__file__).resolve().parent / "models" / "yolo11n.pt"
+DEFAULT_YOLO_MODEL: str = str(_LOCAL_MODEL) if _LOCAL_MODEL.exists() else "yolo11n.pt"
 
 # COCO class ids for transparent drinkware.
 _WINE_GLASS = 40

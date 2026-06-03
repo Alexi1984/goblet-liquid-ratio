@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=69"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,6 +8,8 @@ version = "0.1.0"
 description = "Estimate orange/red juice height ratio in a fixed goblet via YOLO localization + CV measurement."
 requires-python = ">=3.12"
 authors = [{ name = "Alexi1984" }]
+license = "MIT"
+license-files = ["LICENSE"]
 dependencies = [
     "numpy>=2.0,<2.3",
     "opencv-python-headless>=4.12,<4.14",
@@ -25,9 +27,6 @@ goblet-liquid-ratio = "goblet_liquid_ratio.__main__:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-
-[tool.setuptools.package-data]
-goblet_liquid_ratio = ["models/*.pt"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
