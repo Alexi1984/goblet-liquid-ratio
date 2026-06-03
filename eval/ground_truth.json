@@ -1,0 +1,20 @@
+{
+  "_comment": "Manually annotated ground-truth liquid HEIGHT ratio for the 15 desktop goblet photos. ratio = (cup_bottom - liquid_surface) / (cup_bottom - cup_top), read off the YOLO crop ruler (percent of crop height). Annotated by visual inspection of /tmp/goblet_gt/NN_crop.jpg. 15 used the corrected glass box (not the red bottle).",
+  "samples": [
+    {"id": 1,  "cup_top_pct": 8,  "surface_pct": 33, "cup_bottom_pct": 63, "gt_ratio": 0.55, "old_ratio": 0.7254, "old_conf": 0.829},
+    {"id": 2,  "cup_top_pct": 10, "surface_pct": 33, "cup_bottom_pct": 68, "gt_ratio": 0.60, "old_ratio": 0.6908, "old_conf": 0.716},
+    {"id": 3,  "cup_top_pct": 8,  "surface_pct": 34, "cup_bottom_pct": 63, "gt_ratio": 0.53, "old_ratio": 0.5727, "old_conf": 0.728},
+    {"id": 4,  "cup_top_pct": 12, "surface_pct": 33, "cup_bottom_pct": 68, "gt_ratio": 0.62, "old_ratio": 0.6392, "old_conf": 0.530},
+    {"id": 5,  "cup_top_pct": 9,  "surface_pct": 31, "cup_bottom_pct": 68, "gt_ratio": 0.63, "old_ratio": 0.7092, "old_conf": 0.555},
+    {"id": 6,  "cup_top_pct": 9,  "surface_pct": 35, "cup_bottom_pct": 63, "gt_ratio": 0.52, "old_ratio": 0.5087, "old_conf": 0.693},
+    {"id": 7,  "cup_top_pct": 8,  "surface_pct": 33, "cup_bottom_pct": 63, "gt_ratio": 0.55, "old_ratio": 0.3205, "old_conf": 0.672},
+    {"id": 8,  "cup_top_pct": 10, "surface_pct": 34, "cup_bottom_pct": 62, "gt_ratio": 0.54, "old_ratio": 0.6545, "old_conf": 0.820},
+    {"id": 9,  "cup_top_pct": 10, "surface_pct": 33, "cup_bottom_pct": 62, "gt_ratio": 0.56, "old_ratio": 0.7186, "old_conf": 0.838},
+    {"id": 10, "cup_top_pct": 12, "surface_pct": 28, "cup_bottom_pct": 68, "gt_ratio": 0.71, "old_ratio": 0.4598, "old_conf": 0.709},
+    {"id": 11, "cup_top_pct": 10, "surface_pct": 33, "cup_bottom_pct": 65, "gt_ratio": 0.58, "old_ratio": 0.7033, "old_conf": 0.775},
+    {"id": 12, "cup_top_pct": 17, "surface_pct": 30, "cup_bottom_pct": 62, "gt_ratio": 0.71, "old_ratio": 0.7286, "old_conf": 0.495},
+    {"id": 13, "cup_top_pct": 9,  "surface_pct": 33, "cup_bottom_pct": 58, "gt_ratio": 0.51, "old_ratio": 0.9327, "old_conf": 0.697},
+    {"id": 14, "cup_top_pct": 12, "surface_pct": 28, "cup_bottom_pct": 67, "gt_ratio": 0.71, "old_ratio": 0.7070, "old_conf": 0.801},
+    {"id": 15, "cup_top_pct": 10, "surface_pct": 33, "cup_bottom_pct": 63, "gt_ratio": 0.57, "old_ratio": 0.4406, "old_conf": 0.868}
+  ]
+}

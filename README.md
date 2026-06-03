@@ -22,6 +22,12 @@ python -m venv .venv
 .venv/bin/python -m pip install -e ".[test]"
 ```
 
+Optional YOLO segmentation support:
+
+```bash
+.venv/bin/python -m pip install -e ".[test,yolo]"
+```
+
 ## Python API
 
 ```python
@@ -29,6 +35,12 @@ from goblet_liquid_ratio import estimate_liquid_height_ratio
 
 ratio = estimate_liquid_height_ratio("path/to/image.jpg")
 print(ratio)
+```
+
+Use YOLO-seg as an optional first-stage goblet cutout when the dependency is installed:
+
+```python
+ratio = estimate_liquid_height_ratio("path/to/image.jpg", method="yolo")
 ```
 
 The function returns:
@@ -50,22 +62,41 @@ print(result.debug_images.keys())
 .venv/bin/python -m goblet_liquid_ratio path/to/image.jpg
 ```
 
+Process a directory of images:
+
+```bash
+.venv/bin/python -m goblet_liquid_ratio /home/yuyuyu/桌面 --debug /tmp/goblet-debug
+```
+
+Use YOLO mode:
+
+```bash
+.venv/bin/python -m goblet_liquid_ratio path/to/image.jpg --method yolo
+```
+
 With debug images:
 
 ```bash
 .venv/bin/python -m goblet_liquid_ratio path/to/image.jpg --debug debug_outputs
 ```
 
+If an image file name contains shell characters such as `&`, either quote the full path or pass the parent directory:
+
+```bash
+.venv/bin/python -m goblet_liquid_ratio 'path/to/image&from&wechat.jpeg'
+```
+
 ## How It Works
 
-The estimator uses traditional CV only:
+The default estimator uses traditional CV only:
 
-1. Generate a fixed goblet edge template.
-2. Locate the goblet with multi-scale OpenCV edge template matching.
-3. Resize the matched crop to canonical goblet coordinates.
-4. Apply a fixed cup-interior mask.
-5. Detect opaque liquid evidence using saturation, chroma, and brightness difference from local background.
-6. Estimate the top of the bottom-connected filled row region as the liquid surface.
+1. Detect opaque colored liquid evidence using saturation and chroma.
+2. Split liquid candidates into connected components.
+3. Ignore narrow bottles, huge background regions, and connected base reflections.
+4. Estimate the liquid surface from the dominant filled row band and nearby horizontal edge evidence.
+5. Fall back to fixed goblet edge template matching when color evidence is weak.
+
+YOLO mode uses a small Ultralytics segmentation model first to cut out `wine glass` or `cup`, then applies the same liquid-surface measurement inside that mask.
 
 ## Limits
 
