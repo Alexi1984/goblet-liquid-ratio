@@ -19,6 +19,12 @@ yolo = ["ultralytics>=8.3,<9"]
 [project.scripts]
 goblet-liquid-ratio = "goblet_liquid_ratio.__main__:main"
 
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+goblet_liquid_ratio = ["models/*.pt"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["src"]

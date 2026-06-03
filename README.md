@@ -57,16 +57,43 @@ python eval/render_overlays.py             # overlays + contact sheet
 
 ## Install
 
-YOLO mode needs `torch` + `ultralytics`. The simplest path that does not touch
-other environments is an overlay venv that reuses an existing torch install:
+### Use it in your own project (from GitHub)
+
+The default `method="yolo"` needs the optional detector stack
+(`torch` + `ultralytics`, a large download). Install **with** the `[yolo]`
+extra to get it:
+
+```bash
+pip install "git+https://github.com/<you>/goblet-liquid-ratio.git#egg=goblet-liquid-ratio[yolo]"
+```
+
+Torch-free install (colour-blob `method="opencv"` only — lighter, but less
+robust to red/orange objects next to the cup):
+
+```bash
+pip install "git+https://github.com/<you>/goblet-liquid-ratio.git"
+```
+
+The `yolo11n` weights (~5 MB) ship **inside** the package, so YOLO mode works
+offline once installed. If for some reason they are missing, ultralytics will
+download them by name on first use (needs network then).
+
+> Heads-up: if you call the default `method="yolo"` without the `[yolo]` extra,
+> the function raises an `ImportError` that tells you exactly how to fix it
+> (install the extra, or pass `method="opencv"`).
+
+### Local development
+
+`torch` is heavy; the simplest path that does not touch other environments is an
+overlay venv reusing an existing torch install:
 
 ```bash
 python -m venv --system-site-packages .venv   # reuse a torch-bearing base
 .venv/bin/python -m pip install --no-deps ultralytics ultralytics-thop scipy
-.venv/bin/python -m pip install --no-deps -e .
+.venv/bin/python -m pip install --no-deps -e ".[test]"
 ```
 
-Lightweight (no torch), colour-blob only:
+Torch-free dev install (colour-blob path + tests only):
 
 ```bash
 python -m venv .venv
@@ -90,6 +117,26 @@ r = estimate_liquid_height_ratio("img.jpg", debug=True)
 print(r.ratio, r.confidence, r.goblet_bbox)
 print(r.liquid_surface_y, r.cup_top_y, r.cup_bottom_y)
 print(r.debug_images.keys())   # "juice_confidence", "overlay"
+```
+
+Integrating into your own code, with a graceful fallback when the detector
+stack is not installed:
+
+```python
+from goblet_liquid_ratio import estimate_liquid_height_ratio
+
+def juice_level(image_path: str) -> float | None:
+    try:
+        return estimate_liquid_height_ratio(image_path)            # yolo (best)
+    except ImportError:
+        return estimate_liquid_height_ratio(image_path, method="opencv")  # torch-free fallback
+```
+
+A runnable version is in [`examples/quickstart.py`](examples/quickstart.py):
+
+```bash
+python examples/quickstart.py path/to/photo.jpg
+python examples/quickstart.py path/to/photo.jpg --method opencv
 ```
 
 ## CLI
@@ -119,3 +166,11 @@ full path, or pass the parent directory.
 
 Pure-unit and colour-blob tests always run; the real-photo regression test is
 skipped unless `ultralytics` and the sample photos are present.
+
+## Third-party / license note
+
+YOLO mode uses **Ultralytics YOLO11**, which is licensed **AGPL-3.0**. The
+bundled `src/goblet_liquid_ratio/models/yolo11n.pt` weights and the
+`ultralytics` runtime are redistributed under that license. If you publish this
+repo or build a service on top of it, AGPL-3.0 obligations apply to the YOLO
+path. The torch-free `method="opencv"` path does not use Ultralytics.

@@ -11,12 +11,13 @@ import numpy as np
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 from goblet_liquid_ratio import estimate_liquid_height_ratio  # noqa: E402
+from goblet_liquid_ratio.core import DEFAULT_YOLO_MODEL  # noqa: E402
 
 SAMPLES = Path("/home/yuyuyu/桌面")
 GT = {s["id"]: s for s in json.loads((ROOT / "eval" / "ground_truth.json").read_text())["samples"]}
 OUT = ROOT / "eval" / "results_new"
 OUT.mkdir(parents=True, exist_ok=True)
-MODEL = str(ROOT / "models" / "yolo11n.pt")
+MODEL = DEFAULT_YOLO_MODEL
 
 paths = sorted(p for p in SAMPLES.iterdir() if p.suffix.lower() in {".jpeg", ".jpg", ".png"})
 tiles = []

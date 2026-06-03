@@ -17,10 +17,11 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
 from goblet_liquid_ratio import estimate_liquid_height_ratio  # noqa: E402
+from goblet_liquid_ratio.core import DEFAULT_YOLO_MODEL  # noqa: E402
 
 DEFAULT_SAMPLES = Path("/home/yuyuyu/桌面")
 GT_PATH = ROOT / "eval" / "ground_truth.json"
-DEFAULT_MODEL = ROOT / "models" / "yolo11n.pt"
+DEFAULT_MODEL = DEFAULT_YOLO_MODEL
 
 
 def sorted_samples(samples_dir: Path) -> list[Path]:

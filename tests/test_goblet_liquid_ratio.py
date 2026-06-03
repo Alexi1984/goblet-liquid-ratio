@@ -20,11 +20,12 @@ import pytest
 
 import goblet_liquid_ratio.core as core
 from goblet_liquid_ratio import LiquidHeightResult, estimate_liquid_height_ratio
+from goblet_liquid_ratio.core import DEFAULT_YOLO_MODEL
 
 ROOT = Path(__file__).resolve().parent.parent
 GT_PATH = ROOT / "eval" / "ground_truth.json"
 SAMPLES_DIR = Path("/home/yuyuyu/桌面")
-MODEL_PATH = ROOT / "models" / "yolo11n.pt"
+MODEL_PATH = Path(DEFAULT_YOLO_MODEL)
 
 try:
     import ultralytics  # noqa: F401

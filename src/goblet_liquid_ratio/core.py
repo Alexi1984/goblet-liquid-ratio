@@ -8,9 +8,9 @@ import cv2
 import numpy as np
 
 
-# Bundled detector weights (falls back to ultralytics auto-download by name).
-_PKG_DIR = Path(__file__).resolve().parent
-_BUNDLED_MODEL = _PKG_DIR.parent.parent / "models" / "yolo11n.pt"
+# Detector weights bundled inside the installed package; falls back to the
+# ultralytics auto-download by name (~5 MB, needs network on first use).
+_BUNDLED_MODEL = Path(__file__).resolve().parent / "models" / "yolo11n.pt"
 DEFAULT_YOLO_MODEL: str = str(_BUNDLED_MODEL) if _BUNDLED_MODEL.exists() else "yolo11n.pt"
 
 # COCO class ids for transparent drinkware.
@@ -301,7 +301,10 @@ def _yolo_candidates(bgr: np.ndarray, model_path: str, config: EstimatorConfig) 
         from ultralytics import YOLO
     except ImportError as exc:
         raise ImportError(
-            'YOLO mode requires optional dependencies. Install with: python -m pip install -e ".[yolo]"'
+            "method='yolo' needs the optional detector dependencies (ultralytics + torch).\n"
+            "  Install them:   pip install 'goblet-liquid-ratio[yolo]'\n"
+            "  Or skip torch:  estimate_liquid_height_ratio(image, method='opencv')\n"
+            "                  (colour-blob only; lighter but less robust to nearby red/orange objects)."
         ) from exc
 
     model = YOLO(model_path)
