@@ -6,20 +6,20 @@ import re
 
 import cv2
 
-from .core import LiquidHeightResult, estimate_liquid_height_ratio
+from .core import DEFAULT_YOLO_MODEL, LiquidHeightResult, estimate_liquid_height_ratio
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Estimate opaque liquid height ratio in a fixed goblet image.")
+    parser = argparse.ArgumentParser(description="Estimate orange/red liquid height ratio in a fixed goblet image.")
     parser.add_argument("image", help="Path to an input image or a directory of images.")
     parser.add_argument("--debug", type=Path, help="Optional directory for debug images.")
     parser.add_argument(
         "--method",
-        choices=("opencv", "yolo", "auto"),
-        default="opencv",
-        help="Estimator backend. opencv is lightweight; yolo uses optional YOLO segmentation first.",
+        choices=("yolo", "opencv", "auto"),
+        default="yolo",
+        help="Estimator backend. yolo localizes the cup first (needs ultralytics); opencv is colour-blob only.",
     )
-    parser.add_argument("--yolo-model", default="yolov8n-seg.pt", help="YOLO segmentation model path/name for --method yolo/auto.")
+    parser.add_argument("--yolo-model", default=DEFAULT_YOLO_MODEL, help="YOLO detection model path/name for --method yolo/auto.")
     args = parser.parse_args(argv)
 
     input_path = Path(args.image)

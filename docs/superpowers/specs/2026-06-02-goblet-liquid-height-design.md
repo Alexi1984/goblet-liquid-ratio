@@ -76,6 +76,25 @@ This keeps the normal function simple while allowing inspection when tuning thre
 
 ## Algorithm
 
+> **Implementation note (as built).** The sections below describe the original
+> edge-template plan. The shipped estimator instead localizes the goblet with a
+> small YOLO detector (`yolo11n`, COCO `wine glass` / `cup`) and measures juice
+> inside the chosen box. This change was driven by ground-truth evaluation: the
+> pure colour-blob/template estimator scored MAE 0.125 with 3 hard failures on
+> 15 real photos because red/orange neighbours (bottles) bled into the cup blob.
+> YOLO localization isolates the cup and brought MAE to 0.068 with 0 hard
+> failures. Key decisions that differ from the plan:
+>
+> - **Localization** is YOLO detection (not edge template matching, which never
+>   matched the real cluttered edges). `method="opencv"` keeps a colour-blob
+>   localizer as a torch-free fallback.
+> - **Liquid band** is the widest near-peak-width run of the juice blob, which
+>   excludes background bleed above and stem/base reflection below.
+> - **Scale ruler** is the bowl inner width (a fixed-shape invariant), not the
+>   detection box height, because YOLO boxes vary in how much stem they include.
+> - **Colour scope** is orange/red juice specifically (hue-gated), matching the
+>   actual drink, rather than a fully colour-agnostic signal.
+
 ### 1. Image Loading and Normalization
 
 Accept either:
